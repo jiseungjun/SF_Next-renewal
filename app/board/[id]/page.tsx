@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 /** UI 컴포넌트 */
 import { AlertPopup, BoardCard } from "@/components/common";
