@@ -18,15 +18,18 @@ import { Board, Task } from "@/types";
 function BoardPage() {
     const { id } = useParams();
     const { toast } = useToast();
-    const [task, setTask] = useState<Task>();
-    const [boards, setBoards] = useState<Board[]>(task?.boards || []);
+    const [, setTask] = useState<Task | null>(null);
+    const [boards, setBoards] = useState<Board[]>([]);
 
     /** 특정 id 값에 따른 TASK 데이터 */
     const getTask = async () => {
         try {
             const { data, status } = await supabase.from("tasks").select("*").eq("id", id);
 
-            if (data !== null && status === 200) setTask(data[0]);
+            if (data !== null && status === 200) {
+                setTask(data[0]);
+                setBoards(data[0].boards || []);
+            }
         } catch (error) {
             console.log(error);
         }
@@ -42,19 +45,20 @@ function BoardPage() {
             content: "",
             isCompleted: false,
         };
-        setBoards((prevBoards) => [...prevBoards, newBoard]);
-        updateTaskOneColumnById(Number(id), "boards", boards);
+        const updatedBoards = [...boards, newBoard];
+
+        setBoards(updatedBoards);
+        updateTaskOneColumnById(Number(id), "boards", updatedBoards);
     };
 
     const updateTaskOneColumnById = async (uid: number, column: string, newValue: any) => {
         try {
-            const { data, status } = await supabase
+            const { status } = await supabase
                 .from("tasks")
                 .update({ [column]: newValue })
-                .eq("id", uid)
-                .select();
+                .eq("id", uid);
 
-            if (data !== null && status === 204) {
+            if (status === 204) {
                 toast({
                     title: "새로운 TODO-BOARD를 생성했습니다.",
                     description: "생성한 TODO-BOARD를 예쁘게 꾸며주세요!",
