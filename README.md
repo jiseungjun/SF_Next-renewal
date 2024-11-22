@@ -61,11 +61,11 @@
 
 2. Init Page(최초 진입 페이지) UI 개발하기
 
-    - `#2-init-page-ui` branch를 참고해주세요.
+    - `#2-ui-init` branch를 참고해주세요.
 
 3. Board Unique Page By Id(Board ID에 따른 동적 라우팅 페이지) UI 개발하기
 
-    - `#3-board-page-ui` branch를 참고해주세요.
+    - `#3-ui-board` branch를 참고해주세요.
 
 4. Supabase 연동하기
 
