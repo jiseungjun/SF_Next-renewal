@@ -1,12 +1,11 @@
 import { supabase } from "@/lib/supabase";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "@/hooks/use-toast";
 import { useGetTaskById } from "@/hooks/api";
 import { useAtom } from "jotai";
 import { taskAtom } from "@/stores/atoms";
 import { Board } from "@/types";
 
 function useDeleteBoard(taskId: number, boardId: string) {
-    const { toast } = useToast();
     const [task] = useAtom(taskAtom);
     const { getTaskById } = useGetTaskById(taskId);
 

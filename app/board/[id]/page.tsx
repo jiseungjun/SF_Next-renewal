@@ -5,16 +5,16 @@ import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { useCreateBoard, useGetTaskById, useGetTasks } from "@/hooks/api";
+import { toast } from "@/hooks/use-toast";
 import { nanoid } from "nanoid";
 /** UI 컴포넌트 */
 import { AlertPopup, BoardCard } from "@/components/common";
 import { Button, Progress, LabelDatePicker } from "@/components/ui";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft } from "@/public/assets/icons";
 /** 스타일 */
 import styles from "./page.module.scss";
 /** 타입 */
-import { Board, Task } from "@/types";
-import { toast } from "@/hooks/use-toast";
+import { Board } from "@/types";
 
 function BoardPage() {
     const { id } = useParams();

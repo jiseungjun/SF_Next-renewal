@@ -1,13 +1,12 @@
 "use client";
 
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/lib/supabase";
 import { taskAtom } from "@/stores/atoms";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 
 function useGetTaskById(taskId: number) {
-    const { toast } = useToast();
     const [task, setTask] = useAtom(taskAtom);
 
     const getTaskById = async () => {
