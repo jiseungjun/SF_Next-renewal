@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { useCreateBoard, useGetTaskById, useGetTasks } from "@/hooks/api";
@@ -18,6 +18,7 @@ import { Board } from "@/types";
 
 function BoardPage() {
     const { id } = useParams();
+    const router = useRouter();
     const { getTasks } = useGetTasks();
     const { task } = useGetTaskById(Number(id)); // 특정 id 값에 따른 TASK 데이터
     const createBoard = useCreateBoard();
@@ -98,17 +99,24 @@ function BoardPage() {
     useEffect(() => {
         if (task) {
             setTitle(task.title || "");
-            setStartDate(task.startDate);
-            setEndDate(task.endDate);
+            setStartDate(task.start_date ? new Date(task.start_date) : undefined);
+            setEndDate(task.end_date ? new Date(task.end_date) : undefined);
             setBoards(task.boards);
         }
     }, [task]);
+
+    useEffect(() => {
+        if (task?.boards) {
+            const completedCount = task.boards.filter((board: Board) => board.isCompleted).length;
+            setCount(completedCount);
+        }
+    }, [task?.boards]);
 
     return (
         <>
             <div className={styles.header}>
                 <div className={styles[`header__btn-box`]}>
-                    <Button variant={"outline"} size={"icon"}>
+                    <Button variant={"outline"} size={"icon"} onClick={() => router.push("/")}>
                         <ChevronLeft />
                     </Button>
                     <div className="flex items-center gap-2">
@@ -125,8 +133,10 @@ function BoardPage() {
                     <input type="text" value={title} onChange={(event) => setTitle(event.target.value)} placeholder="Enter Title Here!" className={styles.header__top__input} />
                     {/* 진행상황 척도 그래프 섹션 */}
                     <div className="flex items-center justify-start gap-4">
-                        <small className="text-sm font-medium leading-none text-[#6D6D6D]">1/10 Completed</small>
-                        <Progress className="w-60 h-[10px]" value={33} />
+                        <small className="text-sm font-medium leading-none text-[#6D6D6D]">
+                            {count}/{task?.boards.length} Completed
+                        </small>
+                        <Progress className="w-60 h-[10px]" value={task && task.boards.length > 0 ? (count / task.boards.length) * 100 : 0} />
                     </div>
                 </div>
                 {/* 캘린더 + Add New Board 버튼 섹션 */}

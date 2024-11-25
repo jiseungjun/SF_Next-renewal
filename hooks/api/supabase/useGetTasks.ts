@@ -36,7 +36,7 @@ function useGetTasks() {
         }
     };
 
-    return { tasks, getTasks };
+    return { tasks, setTasks, getTasks };
 }
 
 export { useGetTasks };

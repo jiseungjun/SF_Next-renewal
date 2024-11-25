@@ -1,8 +1,8 @@
 export interface Task {
     id: number;
     title: string;
-    startDate: Date;
-    endDate: Date;
+    start_date: Date;
+    end_date: Date;
     boards: Board[];
 }
 
