@@ -6,6 +6,7 @@ export { Calendar } from "./date-picker/calendar";
 export { Dialog, DialogPortal, DialogOverlay, DialogClose, DialogTrigger, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription } from "./dialog/dialog";
 export { LabelDatePicker } from "./date-picker/LabelDatePicker";
 export { Input } from "./input/input";
+export { Label } from "./label/label";
 export { Popover, PopoverTrigger, PopoverContent } from "./popover/popover";
 export { Progress } from "./progress/progress";
 export { Separator } from "./separator/separator";

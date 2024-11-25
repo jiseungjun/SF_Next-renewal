@@ -37,6 +37,7 @@
     -   `npx shadcn@latest add progress`
     -   `npx shadcn@latest add toast`
     -   `npx shadcn@latest add separator`
+    -   `npx shadcn@latest add label`
 
 -   SASS/SCSS 설치: `npm i sass`
 -   React 마크다운 에디터 설치: `npm i @uiw/react-markdown-editor`

@@ -8,8 +8,8 @@ import { Button, SearchBar } from "@/components/ui";
 import { Task } from "@/types";
 
 function AsideSection() {
-    const { id } = useParams();
     const router = useRouter();
+    const { id } = useParams();
     const { tasks, getTasks } = useGetTasks();
     const { search } = useSearch();
     const [searchTerm, setSearchTerm] = useState<string>("");
