@@ -34,8 +34,8 @@ function BoardPage() {
         const newBoard: Board = {
             id: nanoid(),
             title: "",
-            startDate: null,
-            endDate: null,
+            startDate: undefined,
+            endDate: undefined,
             content: "",
             isCompleted: false,
         };
@@ -71,9 +71,8 @@ function BoardPage() {
                     title: "TASK 저장을 완료하였습니다.",
                     description: "수정한 TASK의 마감일을 꼭 지켜주세요!",
                 });
-                /** 서버에서 데이터 갱신 후 상태값을 업데이트
-                 * Aside-Section의 리스트 정보를 실시간으로 업데이트 하기 위해
-                 */
+                // 서버에서 데이터 갱신 후 상태값을 업데이트
+                // Aside-Section의 리스트 정보를 실시간으로 업데이트 하기 위해
                 getTasks();
             }
 
@@ -133,8 +132,8 @@ function BoardPage() {
                 {/* 캘린더 + Add New Board 버튼 섹션 */}
                 <div className={styles.header__bottom}>
                     <div className="flex items-center gap-5">
-                        <LabelDatePicker label={"From"} />
-                        <LabelDatePicker label={"To"} />
+                        <LabelDatePicker label={"From"} value={startDate} onChange={setStartDate} />
+                        <LabelDatePicker label={"To"} value={endDate} onChange={setEndDate} />
                     </div>
                     <Button className="text-white bg-[#E79057] hover:bg-[#E26F24] hover:ring-1 hover:ring-[#E26F24] hover:ring-offset-1 active:bg-[#D5753D] hover:shadow-lg" onClick={handleAddBoard}>
                         Add New Board
@@ -146,7 +145,7 @@ function BoardPage() {
                     <div className={styles.body__isData}>
                         {/* Add New Board 버튼 클릭으로 인한 Board 데이터가 있을 경우 */}
                         {boards.map((board: Board) => {
-                            return <BoardCard key={board.id} />;
+                            return <BoardCard key={board.id} board={board} />;
                         })}
                     </div>
                 ) : (
