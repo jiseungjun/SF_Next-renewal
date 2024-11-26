@@ -8,7 +8,7 @@ import { Button, SearchBar } from "@/components/ui";
 import { Task } from "@/types";
 import { NavUser } from "./NavUser";
 import { useAtomValue } from "jotai";
-import { uesrAtom } from "@/stores/atoms";
+import { userAtom } from "@/stores/atoms";
 
 function AsideSection() {
     const router = useRouter();
@@ -16,7 +16,7 @@ function AsideSection() {
     const { tasks, getTasks } = useGetTasks();
     const { search } = useSearch();
     /** 상태 값 */
-    const user = useAtomValue(uesrAtom); // read
+    const user = useAtomValue(userAtom); // read
     const [searchTerm, setSearchTerm] = useState<string>("");
 
     useEffect(() => {

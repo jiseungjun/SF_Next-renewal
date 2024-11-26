@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAtom } from "jotai";
-import { uesrAtom } from "@/stores/atoms";
+import { userAtom } from "@/stores/atoms";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "@/hooks/use-toast";
 /** UI 컴포넌트 */
@@ -14,7 +14,7 @@ import { Eye, EyeOff } from "@/public/assets/icons";
 function LoginPage() {
     const supabase = createClient();
     const router = useRouter();
-    const [user, setUser] = useAtom(uesrAtom);
+    const [user, setUser] = useAtom(userAtom);
     /** 회원가입에 필요한 상태 값 */
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");

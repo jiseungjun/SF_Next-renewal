@@ -8,10 +8,12 @@ import { toast } from "@/hooks/use-toast";
 /** UI 컴포넌트 */
 import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Input, Label } from "@/components/ui";
 import { Eye, EyeOff } from "@/public/assets/icons";
+import useEmailCheck from "@/hooks/use-email";
 
 function SignUpPage() {
     const supabase = createClient();
     const router = useRouter();
+    const { checkEmail } = useEmailCheck();
     /** 회원가입에 필요한 상태 값 */
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
@@ -20,19 +22,38 @@ function SignUpPage() {
     const togglePassword = () => setShowPassword((prevState) => !prevState);
 
     const signUpNewUser = async () => {
+        if (!email || !password) {
+            toast({
+                variant: "destructive",
+                title: "기입되지 않은 데이터(값)가 있습니다.",
+                description: "이메일과 비밀번호는 필수 값입니다.",
+            });
+            return; // 필수 값이 기입되지 않은 경우, 추가 작업하지 않고 리턴
+        }
+
+        if (!checkEmail(email)) {
+            toast({
+                variant: "destructive",
+                title: "올바르지 않은 이메일 양식입니다.",
+                description: "올바른 이메일 양식을 작성해주세요!",
+            });
+            return; // 이메일 형식이 잘못된 경우, 추가 작업을 하지 않고 리턴
+        }
+
+        if (password.length < 8) {
+            toast({
+                variant: "destructive",
+                title: "비밀번호는 최소 8자 이상이어야 합니다.",
+                description: "우리의 정보는 소중하니까요! 보안에 신경쓰자구요!",
+            });
+            return; // 이메일 형식이 잘못된 경우, 추가 작업을 하지 않고 리턴
+        }
+
         try {
             const { data, error } = await supabase.auth.signUp({
                 email: email,
                 password: password,
             });
-
-            if (data) {
-                toast({
-                    title: "회원가입을 성공하였습니다.",
-                    description: "로그인 페이지로 이동하여 로그인을 진행해주세요.",
-                });
-                router.push("/"); // 로그인 페이지로 이동
-            }
 
             if (error) {
                 toast({
@@ -40,6 +61,12 @@ function SignUpPage() {
                     title: "에러가 발생했습니다.",
                     description: `Supabase 오류: ${error.message || "알 수 없는 오류"}`,
                 });
+            } else if (data && !error) {
+                toast({
+                    title: "회원가입을 성공하였습니다.",
+                    description: "로그인 페이지로 이동하여 로그인을 진행해주세요.",
+                });
+                router.push("/"); // 로그인 페이지로 이동s
             }
         } catch (error) {
             /** 네트워크 오류나 예기치 않은 에러를 잡기 위해 catch 구문 사용 */

@@ -9,4 +9,4 @@ export const tasksAtom = atom<Task[]>([]);
 export const taskAtom = atom<Task | null>(null);
 
 /** 유저(User) 상태 */
-export const uesrAtom = atom<User | null>(null);
+export const userAtom = atom<User | null>(null);
