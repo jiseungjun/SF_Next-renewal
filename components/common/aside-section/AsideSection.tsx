@@ -6,6 +6,7 @@ import { useGetTasks, useCreateTask, useSearch } from "@/hooks/api";
 /** UI 컴포넌트 */
 import { Button, SearchBar } from "@/components/ui";
 import { Task } from "@/types";
+import { NavUser } from "./NavUser";
 
 function AsideSection() {
     const router = useRouter();
@@ -25,6 +26,12 @@ function AsideSection() {
     const handleSearch = async (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === "Enter") search(searchTerm);
         else return;
+    };
+
+    const userData = {
+        name: "shadcn",
+        email: "m@example.com",
+        avatar: "/avatars/shadcn.jpg",
     };
 
     return (
@@ -56,6 +63,7 @@ function AsideSection() {
                     )}
                 </ul>
             </div>
+            <NavUser user={userData} />
         </aside>
     );
 }
