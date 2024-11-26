@@ -1,12 +1,12 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "@/hooks/use-toast";
 /** UI 컴포넌트 */
 import { BadgeCheck, Bell, ChevronsUpDown, CreditCard, LogOut, Sparkles } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage, Button, DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui";
 import { User } from "@/types";
-import { useRouter } from "next/navigation";
 
 interface Props {
     user: User | null;
@@ -17,19 +17,29 @@ export function NavUser({ user }: Props) {
     const supabase = createClient();
 
     const handleLogout = async () => {
-        const { error } = await supabase.auth.signOut();
-        router.push("/");
+        try {
+            const { error } = await supabase.auth.signOut();
 
-        toast({
-            title: "로그아웃을 완료하였습니다.",
-            description: "TASK 관리 앱을 사용해주셔서 감사합니다.",
-        });
+            toast({
+                title: "로그아웃을 완료하였습니다.",
+                description: "TASK 관리 앱을 사용해주셔서 감사합니다!",
+            });
+            router.push("/");
 
-        if (error) {
+            if (error) {
+                toast({
+                    variant: "destructive",
+                    title: "에러가 발생했습니다.",
+                    description: `Supabase 오류: ${error.message || "알 수 없는 오류"}`,
+                });
+            }
+        } catch (error) {
+            /** 네트워크 오류나 예기치 않은 에러를 잡기 위해 catch 구문 사용 */
+            console.error(error);
             toast({
                 variant: "destructive",
-                title: "에러가 발생했습니다.",
-                description: `Supabase 오류: ${error.message || "알 수 없는 오류"}`,
+                title: "네트워크 오류",
+                description: "서버와 연결할 수 없습니다. 다시 시도해주세요!",
             });
         }
     };
