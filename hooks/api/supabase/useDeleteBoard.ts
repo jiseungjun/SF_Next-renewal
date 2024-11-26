@@ -1,3 +1,5 @@
+"use client";
+
 import { supabase } from "@/lib/supabase";
 import { toast } from "@/hooks/use-toast";
 import { useGetTaskById } from "@/hooks/api";
