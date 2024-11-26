@@ -1,10 +1,5 @@
-import type { Metadata } from "next";
+/** UI 컴포넌트 */
 import { AsideSection } from "@/components/common";
-
-export const metadata: Metadata = {
-    title: "TODO-BOARD 만들기",
-    description: "Shadcn UI 및 Supabase를 활용한 나만의 TODO-BOARD 만들기",
-};
 
 export default function RootLayout({
     children,

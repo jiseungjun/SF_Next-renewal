@@ -4,7 +4,7 @@ import { useCreateTask } from "@/hooks/api";
 /** UI 컴포넌트 */
 import { Button } from "@/components/ui";
 
-function BoardPage() {
+function BoardInitPage() {
     /** Add New Page 버튼을 클릭하였을 때, TASK 생성 */
     const handleCreateTask = useCreateTask();
 
@@ -24,4 +24,4 @@ function BoardPage() {
     );
 }
 
-export default BoardPage;
+export default BoardInitPage;

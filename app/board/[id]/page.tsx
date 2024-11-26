@@ -16,7 +16,7 @@ import styles from "./page.module.scss";
 /** 타입 */
 import { Board } from "@/types";
 
-function BoardPage() {
+function BoardDetailPage() {
     const { id } = useParams();
     const router = useRouter();
     const { getTasks } = useGetTasks();
@@ -173,4 +173,4 @@ function BoardPage() {
     );
 }
 
-export default BoardPage;
+export default BoardDetailPage;

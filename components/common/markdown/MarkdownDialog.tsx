@@ -6,7 +6,7 @@ import { useCreateBoard } from "@/hooks/api";
 import { useAtom } from "jotai";
 import { taskAtom } from "@/stores/atoms";
 /** UI 컴포넌트 */
-import { Button, Checkbox, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, LabelDatePicker, Separator } from "@/components/ui";
+import { Button, Checkbox, Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, LabelDatePicker, Separator } from "@/components/ui";
 import MarkdownEditor from "@uiw/react-markdown-editor";
 import { Board } from "@/types";
 import { useParams } from "next/navigation";
@@ -19,7 +19,7 @@ interface Props {
 function MarkdownEditorDialog({ children, board }: Props) {
     const { id } = useParams();
     const updateBoards = useCreateBoard();
-    const [task, setTask] = useAtom(taskAtom);
+    const [task] = useAtom(taskAtom);
     /** 상태 값 선언 */
     const [isCompleted, setIsCompleted] = useState<boolean>(false);
     const [title, setTitle] = useState<string>("");
