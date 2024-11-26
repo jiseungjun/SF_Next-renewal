@@ -7,12 +7,16 @@ import { useGetTasks, useCreateTask, useSearch } from "@/hooks/api";
 import { Button, SearchBar } from "@/components/ui";
 import { Task } from "@/types";
 import { NavUser } from "./NavUser";
+import { useAtomValue } from "jotai";
+import { uesrAtom } from "@/stores/atoms";
 
 function AsideSection() {
     const router = useRouter();
     const { id } = useParams();
     const { tasks, getTasks } = useGetTasks();
     const { search } = useSearch();
+    /** 상태 값 */
+    const user = useAtomValue(uesrAtom); // read
     const [searchTerm, setSearchTerm] = useState<string>("");
 
     useEffect(() => {
@@ -28,15 +32,9 @@ function AsideSection() {
         else return;
     };
 
-    const userData = {
-        name: "shadcn",
-        email: "m@example.com",
-        avatar: "/avatars/shadcn.jpg",
-    };
-
     return (
         <aside className="page__aside">
-            <div className="flex flex-col h-full">
+            <div className="flex flex-col h-full gap-3">
                 {/* 검색창 UI */}
                 <SearchBar placeholder="검색어를 입력하세요." onChange={(event) => setSearchTerm(event.target.value)} onKeyDown={handleSearch} />
                 {/* Add New Page 버튼 UI */}
@@ -65,7 +63,7 @@ function AsideSection() {
                     </ul>
                 </div>
             </div>
-            <NavUser user={userData} />
+            <NavUser user={user} />
         </aside>
     );
 }

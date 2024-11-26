@@ -2,27 +2,24 @@
 
 import { BadgeCheck, Bell, ChevronsUpDown, CreditCard, LogOut, Sparkles } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage, Button, DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui";
+import { User } from "@/types";
 
-export function NavUser({
-    user,
-}: {
-    user: {
-        name: string;
-        email: string;
-        avatar: string;
-    };
-}) {
+interface Props {
+    user: User | null;
+}
+
+export function NavUser({ user }: Props) {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant={"outline"} className="py-6 px-3 flex items-center justify-evenly">
                     <Avatar className="h-8 w-8 rounded-lg">
-                        <AvatarImage src={user.avatar} alt={user.name} />
+                        <AvatarImage src={user?.imgUrl} alt="" />
                         <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                     </Avatar>
                     <div className="grid flex-1 text-left text-sm leading-tight">
-                        <span className="truncate font-semibold">{user.name}</span>
-                        <span className="truncate text-xs">{user.email}</span>
+                        <span className="truncate font-semibold">스나이퍼팩토리</span>
+                        <span className="truncate text-xs">{user?.email}</span>
                     </div>
                     <ChevronsUpDown className="ml-auto size-4" />
                 </Button>
@@ -31,12 +28,12 @@ export function NavUser({
                 <DropdownMenuLabel className="p-0 font-normal">
                     <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                         <Avatar className="h-8 w-8 rounded-lg">
-                            <AvatarImage src={user.avatar} alt={user.name} />
+                            <AvatarImage src={user?.imgUrl} alt="" />
                             <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                         </Avatar>
                         <div className="grid flex-1 text-left text-sm leading-tight">
-                            <span className="truncate font-semibold">{user.name}</span>
-                            <span className="truncate text-xs">{user.email}</span>
+                            <span className="truncate font-semibold">스나이퍼팩토리</span>
+                            <span className="truncate text-xs">{user?.email}</span>
                         </div>
                     </div>
                 </DropdownMenuLabel>

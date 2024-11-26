@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useAtom } from "jotai";
+import { uesrAtom } from "@/stores/atoms";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "@/hooks/use-toast";
 /** UI 컴포넌트 */
@@ -12,6 +14,7 @@ import { Eye, EyeOff } from "@/public/assets/icons";
 function LoginPage() {
     const supabase = createClient();
     const router = useRouter();
+    const [user, setUser] = useAtom(uesrAtom);
     /** 회원가입에 필요한 상태 값 */
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
@@ -19,7 +22,7 @@ function LoginPage() {
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const togglePassword = () => setShowPassword((prevState) => !prevState);
 
-    const signInWithEmail = async () => {
+    const handleLogin = async () => {
         try {
             const { data, error } = await supabase.auth.signInWithPassword({
                 email: email,
@@ -31,7 +34,15 @@ function LoginPage() {
                     title: "로그인을 성공하였습니다.",
                     description: "자유롭게 TASK 관리를 해주세요!",
                 });
+                console.log(data);
                 router.push("/board"); // 로그인 페이지로 이동
+                // Jotai의 user에 관련된 상태 값을 업데이트
+                setUser({
+                    id: data.user?.id || "",
+                    email: data.user?.email || "",
+                    phone: data.user?.phone || "",
+                    imgUrl: "/assets/images/profile.jpg",
+                });
             }
 
             if (error) {
@@ -97,7 +108,7 @@ function LoginPage() {
                         </div>
                     </div>
                     <CardFooter className="flex flex-col mt-6">
-                        <Button className="w-full text-white bg-[#E79057] hover:bg-[#E26F24] hover:ring-1 hover:ring-[#E26F24] hover:ring-offset-1 active:bg-[#D5753D] hover:shadow-lg" onClick={signInWithEmail}>
+                        <Button className="w-full text-white bg-[#E79057] hover:bg-[#E26F24] hover:ring-1 hover:ring-[#E26F24] hover:ring-offset-1 active:bg-[#D5753D] hover:shadow-lg" onClick={handleLogin}>
                             로그인
                         </Button>
                         <div className="mt-4 text-center text-sm">
