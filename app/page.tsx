@@ -9,14 +9,15 @@ import { createClient } from "@/lib/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import useEmailCheck from "@/hooks/use-email";
 /** UI 컴포넌트 */
+import { FindPasswordPopup } from "@/components/common";
 import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Input, Label } from "@/components/ui";
 import { Eye, EyeOff } from "@/public/assets/icons";
 
 function LoginPage() {
     const supabase = createClient();
     const router = useRouter();
-    const { checkEmail } = useEmailCheck();
     const [user, setUser] = useAtom(userAtom);
+    const { checkEmail } = useEmailCheck();
     /** 회원가입에 필요한 상태 값 */
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
@@ -31,7 +32,7 @@ function LoginPage() {
                 title: "기입되지 않은 데이터(값)가 있습니다.",
                 description: "이메일과 비밀번호는 필수 값입니다.",
             });
-            return; // 필수 값이 기입되지 않은 경우, 추가 작업하지 않고 리턴
+            return; // 필수 값이 입력되지 않은 경우라면, 추가 작업은 하지 않고 리턴
         }
 
         if (!checkEmail(email)) {
@@ -107,9 +108,9 @@ function LoginPage() {
                         <div className="relative grid gap-2">
                             <div className="flex items-center">
                                 <Label htmlFor="password">비밀번호</Label>
-                                <Link href={"#"} className="ml-auto inline-block text-sm underline">
-                                    비밀번호를 잊으셨나요?
-                                </Link>
+                                <FindPasswordPopup>
+                                    <p className="ml-auto inline-block text-sm underline cursor-pointer">비밀번호를 잊으셨나요?</p>
+                                </FindPasswordPopup>
                             </div>
                             <Input id="password" type={showPassword ? "text" : "password"} placeholder="비밀번호를 입력하세요." required value={password} onChange={(event) => setPassword(event.target.value)} />
                             <Button size={"icon"} className="absolute top-[38px] right-2 -translate-y-1/4 bg-transparent hover:bg-transparent" onClick={togglePassword}>

@@ -28,7 +28,7 @@ function SignUpPage() {
                 title: "기입되지 않은 데이터(값)가 있습니다.",
                 description: "이메일과 비밀번호는 필수 값입니다.",
             });
-            return; // 필수 값이 기입되지 않은 경우, 추가 작업하지 않고 리턴
+            return; // 필수 값이 입력되지 않은 경우라면, 추가 작업은 하지 않고 리턴
         }
 
         if (!checkEmail(email)) {
@@ -66,7 +66,7 @@ function SignUpPage() {
                     title: "회원가입을 성공하였습니다.",
                     description: "로그인 페이지로 이동하여 로그인을 진행해주세요.",
                 });
-                router.push("/"); // 로그인 페이지로 이동s
+                router.push("/"); // 로그인 페이지로 이동
             }
         } catch (error) {
             /** 네트워크 오류나 예기치 않은 에러를 잡기 위해 catch 구문 사용 */

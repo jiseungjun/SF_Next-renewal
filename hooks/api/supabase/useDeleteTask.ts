@@ -16,7 +16,7 @@ function useDeleteTask() {
                     title: "선택한 TASK가 삭제되었습니다.",
                     description: "새로운 TASK가 생기시면 언제든 추가해주세요!",
                 });
-                router.push("/"); // 초기 페이지로 이동
+                router.push("/board"); // 초기 페이지로 이동
             }
             if (error) {
                 toast({
