@@ -1,6 +1,7 @@
-import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Input, Label } from "@/components/ui";
-import { Eye } from "lucide-react";
 import Link from "next/link";
+/** UI 컴포넌트 */
+import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Input, Label } from "@/components/ui";
+import { Eye } from "@/public/assets/icons";
 
 function LoginPage() {
     return (
