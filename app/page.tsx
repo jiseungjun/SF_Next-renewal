@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
 import { userAtom } from "@/stores/atoms";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import useEmailCheck from "@/hooks/use-email";
 /** UI 컴포넌트 */
 import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Input, Label } from "@/components/ui";
 import { Eye, EyeOff } from "@/public/assets/icons";
@@ -14,6 +15,7 @@ import { Eye, EyeOff } from "@/public/assets/icons";
 function LoginPage() {
     const supabase = createClient();
     const router = useRouter();
+    const { checkEmail } = useEmailCheck();
     const [user, setUser] = useAtom(userAtom);
     /** 회원가입에 필요한 상태 값 */
     const [email, setEmail] = useState<string>("");
@@ -23,13 +25,37 @@ function LoginPage() {
     const togglePassword = () => setShowPassword((prevState) => !prevState);
 
     const handleLogin = async () => {
+        if (!email || !password) {
+            toast({
+                variant: "destructive",
+                title: "기입되지 않은 데이터(값)가 있습니다.",
+                description: "이메일과 비밀번호는 필수 값입니다.",
+            });
+            return; // 필수 값이 기입되지 않은 경우, 추가 작업하지 않고 리턴
+        }
+
+        if (!checkEmail(email)) {
+            toast({
+                variant: "destructive",
+                title: "올바르지 않은 이메일 양식입니다.",
+                description: "올바른 이메일 양식을 작성해주세요!",
+            });
+            return; // 이메일 형식이 잘못된 경우, 추가 작업을 하지 않고 리턴
+        }
+
         try {
             const { data, error } = await supabase.auth.signInWithPassword({
                 email: email,
                 password: password,
             });
 
-            if (data) {
+            if (error) {
+                toast({
+                    variant: "destructive",
+                    title: "에러가 발생했습니다.",
+                    description: `Supabase 오류: ${error.message || "알 수 없는 오류"}`,
+                });
+            } else if (data && !error) {
                 toast({
                     title: "로그인을 성공하였습니다.",
                     description: "자유롭게 TASK 관리를 해주세요!",
@@ -42,14 +68,6 @@ function LoginPage() {
                     email: data.user?.email || "",
                     phone: data.user?.phone || "",
                     imgUrl: "/assets/images/profile.jpg",
-                });
-            }
-
-            if (error) {
-                toast({
-                    variant: "destructive",
-                    title: "에러가 발생했습니다.",
-                    description: `Supabase 오류: ${error.message || "알 수 없는 오류"}`,
                 });
             }
         } catch (error) {

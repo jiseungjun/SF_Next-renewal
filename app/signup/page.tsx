@@ -5,10 +5,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import useEmailCheck from "@/hooks/use-email";
 /** UI 컴포넌트 */
 import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Input, Label } from "@/components/ui";
 import { Eye, EyeOff } from "@/public/assets/icons";
-import useEmailCheck from "@/hooks/use-email";
 
 function SignUpPage() {
     const supabase = createClient();
@@ -46,7 +46,7 @@ function SignUpPage() {
                 title: "비밀번호는 최소 8자 이상이어야 합니다.",
                 description: "우리의 정보는 소중하니까요! 보안에 신경쓰자구요!",
             });
-            return; // 이메일 형식이 잘못된 경우, 추가 작업을 하지 않고 리턴
+            return; // 비밀번호 길이가 8이하 일 경우, 추가 작업을 하지 않고 리턴
         }
 
         try {
