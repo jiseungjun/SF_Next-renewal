@@ -1,14 +1,39 @@
 "use client";
 
+import { createClient } from "@/lib/supabase/client";
+import { toast } from "@/hooks/use-toast";
+/** UI 컴포넌트 */
 import { BadgeCheck, Bell, ChevronsUpDown, CreditCard, LogOut, Sparkles } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage, Button, DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui";
 import { User } from "@/types";
+import { useRouter } from "next/navigation";
 
 interface Props {
     user: User | null;
 }
 
 export function NavUser({ user }: Props) {
+    const router = useRouter();
+    const supabase = createClient();
+
+    const handleLogout = async () => {
+        const { error } = await supabase.auth.signOut();
+        router.push("/");
+
+        toast({
+            title: "로그아웃을 완료하였습니다.",
+            description: "TASK 관리 앱을 사용해주셔서 감사합니다.",
+        });
+
+        if (error) {
+            toast({
+                variant: "destructive",
+                title: "에러가 발생했습니다.",
+                description: `Supabase 오류: ${error.message || "알 수 없는 오류"}`,
+            });
+        }
+    };
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -60,7 +85,7 @@ export function NavUser({ user }: Props) {
                     </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout}>
                     <LogOut />
                     Log out
                 </DropdownMenuItem>
