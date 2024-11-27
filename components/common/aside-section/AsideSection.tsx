@@ -16,7 +16,7 @@ function AsideSection() {
     const { tasks, getTasks } = useGetTasks();
     const { search } = useSearch();
     /** 상태 값 */
-    const user = useAtomValue(userAtom); // read
+    const user = useAtomValue(userAtom);
     const [searchTerm, setSearchTerm] = useState<string>("");
 
     useEffect(() => {

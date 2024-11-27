@@ -1,12 +1,12 @@
 "use client";
 
 import { toast } from "@/hooks/use-toast";
-import { useAtom } from "jotai";
-import { tasksAtom } from "@/stores/atoms";
+import { useAtom, useAtomValue } from "jotai";
+import { tasksAtom, userAtom } from "@/stores/atoms";
 import { supabase } from "@/lib/supabase";
 
 function useGetTasks() {
-    const user = JSON.parse(localStorage.getItem("user") || "null");
+    const user = localStorage.getItem("user") || null;
     const [tasks, setTasks] = useAtom(tasksAtom);
 
     /** 하단의 코드에서 Supabase에서 error를 반환함에도 불구하고 try-catch 구문을 사용하는 이유
@@ -15,25 +15,29 @@ function useGetTasks() {
      * 그럴 경우, 예외를 잡아내지 않으면 프로그램이 중단되거나 예상치 못한 오류가 발생할 수 있습니다.
      */
     const getTasks = async () => {
-        try {
-            const { data, status, error } = await supabase.from("tasks").select("*").eq("user_id", user?.id);
+        if (!user) {
+            return;
+        } else {
+            try {
+                const { data, status, error } = await supabase.from("tasks").select("*").eq("user_id", JSON.parse(user).id);
 
-            if (data && status === 200) setTasks(data);
-            if (error) {
+                if (data && status === 200) setTasks(data);
+                if (error) {
+                    toast({
+                        variant: "destructive",
+                        title: "에러가 발생했습니다.",
+                        description: `Supabase 오류: ${error.message || "알 수 없는 오류"}`,
+                    });
+                }
+            } catch (error) {
+                /** 네트워크 오류나 예기치 않은 에러를 잡기 위해 catch 구문 사용 */
+                console.error(error);
                 toast({
                     variant: "destructive",
-                    title: "에러가 발생했습니다.",
-                    description: `Supabase 오류: ${error.message || "알 수 없는 오류"}`,
+                    title: "네트워크 오류",
+                    description: "서버와 연결할 수 없습니다. 다시 시도해주세요!",
                 });
             }
-        } catch (error) {
-            /** 네트워크 오류나 예기치 않은 에러를 잡기 위해 catch 구문 사용 */
-            console.error(error);
-            toast({
-                variant: "destructive",
-                title: "네트워크 오류",
-                description: "서버와 연결할 수 없습니다. 다시 시도해주세요!",
-            });
         }
     };
 

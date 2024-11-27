@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { createClient } from "./lib/supabase/client";
+import { createClient } from "./lib/supabase/server";
+import { cookies } from "next/headers";
 
 const getTask = async (taskId: number, userId: string) => {
-    const supabase = createClient();
+    const cookieStore = cookies();
+    const supabase = createClient(cookieStore);
     /** 사용자 ID를 기준으로 TASK를 조회 */
     /** 여기서 userId는 로그인한 계정의 user_id */
     const { data, status, error } = await supabase.from("tasks").select("*").eq("user_id", userId).eq("id", taskId);
@@ -33,9 +35,7 @@ export async function middleware(request: NextRequest) {
     /** 사용자가 로그인이 된 경우, /board/:path* 경로와 같은 콘텐츠 페이지에 접근했을 시
      * 로그인된 유저의 task가 아니면 not-found 페이지로 리다이렉트
      *
-     * 1. 로그인된 사용자가 특정 task를 조회하려는 경우, task의 id 확인
-     */
-
+     * 1. 로그인된 사용자가 특정 task를 조회하려는 경우, task의 id 확인 */
     if (request.nextUrl.pathname.startsWith("/board/")) {
         const taskId = parseInt(request.nextUrl.pathname.split("/board/")[1], 10);
 
