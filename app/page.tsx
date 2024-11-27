@@ -63,7 +63,13 @@ function LoginPage() {
                 });
 
                 /** 쿠키에 저장할 user 데이터 */
-                const userData = { id: data.user?.id || "", email: data.user?.email || "", phone: data.user?.phone || "", imgUrl: "/assets/images/profile.jpg" };
+                const userData = {
+                    id: data.user?.id || "",
+                    email: data.user?.email || "",
+                    phoneNumber: data.user?.user_metadata.phoneNumber || "",
+                    nickname: data.user?.user_metadata.nickname || "",
+                    imgUrl: "/assets/images/profile.jpg",
+                };
                 document.cookie = `user=${JSON.stringify(userData)}; path=/; max-age=3600`; // 1시간 동안 유효
 
                 // Jotai의 user에 관련된 상태 값을 업데이트
@@ -108,7 +114,14 @@ function LoginPage() {
                     <CardContent className="grid gap-6">
                         <div className="grid gap-2">
                             <Label htmlFor="email">이메일</Label>
-                            <Input id="email" type="email" placeholder="이메일을 입력하세요." required value={email} onChange={(event) => setEmail(event.target.value)} />
+                            <Input
+                                id="email"
+                                type="email"
+                                placeholder="이메일을 입력하세요."
+                                required
+                                value={email}
+                                onChange={(event) => setEmail(event.target.value)}
+                            />
                         </div>
                         <div className="relative grid gap-2">
                             <div className="flex items-center">
@@ -117,8 +130,19 @@ function LoginPage() {
                                     <p className="ml-auto inline-block text-sm underline cursor-pointer">비밀번호를 잊으셨나요?</p>
                                 </FindPasswordPopup>
                             </div>
-                            <Input id="password" type={showPassword ? "text" : "password"} placeholder="비밀번호를 입력하세요." required value={password} onChange={(event) => setPassword(event.target.value)} />
-                            <Button size={"icon"} className="absolute top-[38px] right-2 -translate-y-1/4 bg-transparent hover:bg-transparent" onClick={togglePassword}>
+                            <Input
+                                id="password"
+                                type={showPassword ? "text" : "password"}
+                                placeholder="비밀번호를 입력하세요."
+                                required
+                                value={password}
+                                onChange={(event) => setPassword(event.target.value)}
+                            />
+                            <Button
+                                size={"icon"}
+                                className="absolute top-[38px] right-2 -translate-y-1/4 bg-transparent hover:bg-transparent"
+                                onClick={togglePassword}
+                            >
                                 {showPassword ? <EyeOff className="h-5 w-5 text-muted-foreground" /> : <Eye className="h-5 w-5 text-muted-foreground" />}
                             </Button>
                         </div>
@@ -132,7 +156,10 @@ function LoginPage() {
                         </div>
                     </div>
                     <CardFooter className="flex flex-col mt-6">
-                        <Button className="w-full text-white bg-[#E79057] hover:bg-[#E26F24] hover:ring-1 hover:ring-[#E26F24] hover:ring-offset-1 active:bg-[#D5753D] hover:shadow-lg" onClick={handleLogin}>
+                        <Button
+                            className="w-full text-white bg-[#E79057] hover:bg-[#E26F24] hover:ring-1 hover:ring-[#E26F24] hover:ring-offset-1 active:bg-[#D5753D] hover:shadow-lg"
+                            onClick={handleLogin}
+                        >
                             로그인
                         </Button>
                         <div className="mt-4 text-center text-sm">
