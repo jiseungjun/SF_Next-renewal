@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
@@ -16,7 +16,7 @@ import { Eye, EyeOff } from "@/public/assets/icons";
 function LoginPage() {
     const supabase = createClient();
     const router = useRouter();
-    const [user, setUser] = useAtom(userAtom);
+    const [, setUser] = useAtom(userAtom);
     const { checkEmail } = useEmailCheck();
     /** 회원가입에 필요한 상태 값 */
     const [email, setEmail] = useState<string>("");
@@ -80,6 +80,12 @@ function LoginPage() {
             });
         }
     };
+
+    useEffect(() => {
+        /** 로컬스토리지에 user 데이터 유무 체크 후 리다이렉션 */
+        const user = localStorage.getItem("user");
+        if (user) router.push("/board");
+    }, [router]);
 
     return (
         <div className="page">

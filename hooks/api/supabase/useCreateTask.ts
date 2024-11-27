@@ -3,11 +3,12 @@
 import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/lib/supabase";
-import { useAtom } from "jotai";
-import { tasksAtom } from "@/stores/atoms";
+import { useAtom, useAtomValue } from "jotai";
+import { tasksAtom, userAtom } from "@/stores/atoms";
 
 function useCreateTask() {
     const router = useRouter();
+    const user = useAtomValue(userAtom);
     const [, setTasks] = useAtom(tasksAtom);
 
     const createTask = async () => {
@@ -16,6 +17,7 @@ function useCreateTask() {
                 .from("tasks")
                 .insert([
                     {
+                        user_id: user?.id,
                         title: null,
                         start_date: null,
                         end_date: null,

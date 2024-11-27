@@ -5,7 +5,19 @@ import { createClient } from "@/lib/supabase/client";
 import { toast } from "@/hooks/use-toast";
 /** UI 컴포넌트 */
 import { BadgeCheck, Bell, ChevronsUpDown, CreditCard, LogOut, Sparkles } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage, Button, DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui";
+import {
+    Avatar,
+    AvatarFallback,
+    AvatarImage,
+    Button,
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui";
 import { User } from "@/types";
 
 interface Props {
@@ -19,6 +31,11 @@ export function NavUser({ user }: Props) {
     const handleLogout = async () => {
         try {
             const { error } = await supabase.auth.signOut();
+
+            /** 쿠키 값 삭제(수정에 가까움 = 기간 만료) */
+            document.cookie = "user= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+            /** 로컬스토리지 및 스토어 초기화 */
+            localStorage.removeItem("user");
 
             toast({
                 title: "로그아웃을 완료하였습니다.",

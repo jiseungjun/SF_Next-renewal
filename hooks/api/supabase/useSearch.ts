@@ -6,11 +6,11 @@ import { useAtom } from "jotai";
 import { tasksAtom } from "@/stores/atoms";
 
 function useSearch() {
+    const user = JSON.parse(localStorage.getItem("user") || "null");
     const [, setTasks] = useAtom(tasksAtom);
     const search = async (searchTerm: string) => {
         try {
-            const { data, status, error } = await supabase.from("tasks").select("*").ilike("title", `%${searchTerm}%`);
-
+            const { data, status, error } = await supabase.from("tasks").select("*").eq("user_id", user.id).ilike("title", `%${searchTerm}%`);
             if (data && status === 200) {
                 setTasks(data); // Jotai의 tasksAtom 상태를 업데이트
             }
