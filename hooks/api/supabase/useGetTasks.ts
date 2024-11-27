@@ -1,11 +1,12 @@
 "use client";
 
 import { toast } from "@/hooks/use-toast";
-import { useAtom, useAtomValue } from "jotai";
-import { tasksAtom, userAtom } from "@/stores/atoms";
-import { supabase } from "@/lib/supabase";
+import { useAtom } from "jotai";
+import { tasksAtom } from "@/stores/atoms";
+import { createClient } from "@/lib/supabase/client";
 
 function useGetTasks() {
+    const supabase = createClient();
     const user = localStorage.getItem("user") || null;
     const [tasks, setTasks] = useAtom(tasksAtom);
 

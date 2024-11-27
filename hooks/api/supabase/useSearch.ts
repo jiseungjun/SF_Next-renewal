@@ -1,11 +1,12 @@
 "use client";
 
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { useAtom } from "jotai";
 import { tasksAtom } from "@/stores/atoms";
 
 function useSearch() {
+    const supabase = createClient();
     const user = JSON.parse(localStorage.getItem("user") || "null");
     const [, setTasks] = useAtom(tasksAtom);
     const search = async (searchTerm: string) => {
