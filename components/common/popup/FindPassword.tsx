@@ -4,7 +4,19 @@ import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "@/hooks/use-toast";
 /** UI 컴포넌트 */
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger, Label, Input } from "@/components/ui";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+    Label,
+    Input,
+} from "@/components/ui";
 
 interface Props {
     children: React.ReactNode;
@@ -17,7 +29,7 @@ function FindPasswordPopup({ children }: Props) {
     const handleResetPassword = async () => {
         try {
             await supabase.auth.resetPasswordForEmail(email, {
-                redirectTo: "http://localhost:3000/reset-password",
+                redirectTo: "http://localhost:3000/password-setting",
             });
             toast({
                 title: "비밀번호 초기화 이메일을 전송했습니다.",
@@ -43,7 +55,14 @@ function FindPasswordPopup({ children }: Props) {
                 </AlertDialogHeader>
                 <div className="grid gap-2">
                     <Label htmlFor="email">이메일</Label>
-                    <Input id="email" type="email" placeholder="이메일을 입력하세요." required value={email} onChange={(event) => setEmail(event.target.value)} />
+                    <Input
+                        id="email"
+                        type="email"
+                        placeholder="이메일을 입력하세요."
+                        required
+                        value={email}
+                        onChange={(event) => setEmail(event.target.value)}
+                    />
                 </div>
                 <AlertDialogFooter>
                     <AlertDialogCancel>취소</AlertDialogCancel>
