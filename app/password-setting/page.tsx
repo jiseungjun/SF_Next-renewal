@@ -6,21 +6,25 @@ import { toast } from "@/hooks/use-toast";
 /** UI 컴포넌트 */
 import { Button, Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, Label, Input } from "@/components/ui";
 import { Eye, EyeOff } from "@/public/assets/icons";
+import { createClient } from "@/lib/supabase/client";
 
 function PasswordSettingPage() {
     const router = useRouter();
-    const [password, setPassword] = useState<string>("");
-    const [confirmPassword, setConfirmPassword] = useState<string>("");
+    const supabase = createClient();
+    /** 상태 값 */
+    const [password, setPassword] = useState<string>(""); // 새 비밀번호
+    const [confirmPassword, setConfirmPassword] = useState<string>(""); // 비밀번호 확인
     /** 비밀번호 보기 Toggle */
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const togglePassword = () => setShowPassword((prevState) => !prevState);
 
-    const changePassword = () => {
+    /** 비밀번호 변경 */
+    const handleChangePassword = async () => {
         if (!password || !confirmPassword) {
             toast({
                 variant: "destructive",
                 title: "기입되지 않은 데이터(값)가 있습니다.",
-                description: "변경할 비밀번호와 비밀번화 확인은 필수 값입니다.",
+                description: "변경할 비밀번호와 비밀번호 확인은 필수 값입니다.",
             });
             return;
         }
@@ -29,17 +33,44 @@ function PasswordSettingPage() {
             toast({
                 variant: "destructive",
                 title: "비밀번호는 최소 8자 이상이어야 합니다.",
-                description: "우리의 정보는 소중하니까요! 보안에 신경쓰자구요!",
+                description: "우리의 정보는 소중하니까요! 보안에 신경써주세요!",
             });
-            return; // 비밀번호 길이가 8이하 일 경우, 추가 작업을 하지 않고 리턴
+            return;
         }
+
         if (password !== confirmPassword) {
             toast({
                 variant: "destructive",
                 title: "입력한 비밀번호가 일치하지 않습니다.",
-                description: "변경할 비밀번호와 비밀번호 확인란에 입력한 값이 일치한지 확인하세요.",
+                description: "새 비밀번호와 비밀번호 확인란에 입력한 값이 일치하는지 확인하세요!",
             });
             return;
+        }
+
+        /** 비밀번호 변경 로직 동작 */
+        try {
+            const { data, error } = await supabase.auth.updateUser({ password: password });
+
+            if (error) {
+                toast({
+                    variant: "destructive",
+                    title: "에러가 발생했습니다.",
+                    description: `Supabase 오류: ${error.message || "알 수 없는 오류"}`,
+                });
+            } else if (data && !error) {
+                toast({
+                    title: "비밀번호 변경을 완료하였습니다.",
+                });
+                router.push("/");
+            }
+        } catch (error) {
+            /** 네트워크 오류나 예기치 않은 에러를 잡기 위해 catch 구문 사용 */
+            console.error(error);
+            toast({
+                variant: "destructive",
+                title: "네트워크 오류",
+                description: "서버와 연결할 수 없습니다. 다시 시도해주세요!",
+            });
         }
     };
 
@@ -52,12 +83,12 @@ function PasswordSettingPage() {
                         <CardDescription>비밀번호 변경을 위해 변경할 비밀번호를 입력해주세요.</CardDescription>
                     </CardHeader>
                     <CardContent className="grid gap-6">
-                        <div className="relative grid gap-2">
-                            <Label htmlFor="password">변경할 비밀번호</Label>
+                        <div className="grid gap-2">
+                            <Label htmlFor="email">새 비밀번호</Label>
                             <Input
                                 id="password"
                                 type="password"
-                                placeholder="비밀번호를 입력하세요."
+                                placeholder="새 비밀번호를 입력하세요."
                                 required
                                 value={password}
                                 onChange={(event) => setPassword(event.target.value)}
@@ -68,7 +99,7 @@ function PasswordSettingPage() {
                             <Input
                                 id="password"
                                 type={showPassword ? "text" : "password"}
-                                placeholder="비밀번호를 입력하세요."
+                                placeholder="비밀번호를 다시 한 번 입력하세요."
                                 required
                                 value={confirmPassword}
                                 onChange={(event) => setConfirmPassword(event.target.value)}
@@ -97,7 +128,7 @@ function PasswordSettingPage() {
                             </Button>
                             <Button
                                 className="w-full text-white bg-[#E79057] hover:bg-[#E26F24] hover:ring-1 hover:ring-[#E26F24] hover:ring-offset-1 active:bg-[#D5753D] hover:shadow-lg"
-                                onClick={changePassword}
+                                onClick={handleChangePassword}
                             >
                                 비밀번호 변경
                             </Button>
