@@ -33,7 +33,8 @@ export function NavUser({ user }: Props) {
             const { error } = await supabase.auth.signOut();
 
             /** 쿠키 값 삭제(수정에 가까움 = 기간 만료) */
-            document.cookie = "user= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+            // document.cookie = "user= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+            document.cookie = "user= ; path=/; max-age=0;";
             /** 로컬스토리지 및 스토어 초기화 */
             localStorage.removeItem("user");
 
@@ -84,7 +85,7 @@ export function NavUser({ user }: Props) {
                             <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                         </Avatar>
                         <div className="grid flex-1 text-left text-sm leading-tight">
-                            <span className="truncate font-semibold">스나이퍼팩토리</span>
+                            <span className="truncate font-semibold">{user?.nickname ? user?.nickname : "닉네임 없음"}</span>
                             <span className="truncate text-xs">{user?.email}</span>
                         </div>
                     </div>

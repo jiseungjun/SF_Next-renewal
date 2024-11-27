@@ -36,43 +36,51 @@ function EditProfilePopup({ children }: Props) {
     };
 
     const updateUserInfo = async () => {
-        try {
-            const user = await supabase.auth.getUser(); // 로그인된 사용자의 정보 가져오기
-
-            if (user.data) {
-                const { data, error } = await supabase.auth.updateUser({
-                    data: { nickname: nickname, phone_number: phoneNumber },
-                });
-
-                if (error) {
-                    toast({
-                        variant: "destructive",
-                        title: "에러가 발생했습니다.",
-                        description: `Supabase 오류: ${error.message || "알 수 없는 오류"}`,
-                    });
-                } else if (data && !error) {
-                    toast({
-                        title: "프로필 수정을 완료하였습니다.",
-                    });
-                    console.log(data);
-                    const updatedUserData = {
-                        id: data.user?.id || "",
-                        email: data.user?.email || "",
-                        phoneNumber: data.user?.user_metadata.phone_number || "",
-                        nickname: data.user?.user_metadata.nickname || "",
-                        imgUrl: "/assets/images/profile.jpg",
-                    };
-                    setUser(updatedUserData);
-                }
-            }
-        } catch (error) {
-            /** 네트워크 오류나 예기치 않은 에러를 잡기 위해 catch 구문 사용 */
-            console.error(error);
+        if (!nickname && !phoneNumber) {
             toast({
                 variant: "destructive",
-                title: "네트워크 오류",
-                description: "서버와 연결할 수 없습니다. 다시 시도해주세요!",
+                title: "프로필 수정을 원치 않으시면 '취소' 버튼을 눌러주세요!",
             });
+            return;
+        } else {
+            try {
+                const user = await supabase.auth.getUser(); // 로그인된 사용자의 정보 가져오기
+
+                if (user.data) {
+                    const { data, error } = await supabase.auth.updateUser({
+                        data: { nickname: nickname, phone_number: phoneNumber },
+                    });
+
+                    if (error) {
+                        toast({
+                            variant: "destructive",
+                            title: "에러가 발생했습니다.",
+                            description: `Supabase 오류: ${error.message || "알 수 없는 오류"}`,
+                        });
+                    } else if (data && !error) {
+                        toast({
+                            title: "프로필 수정을 완료하였습니다.",
+                        });
+                        console.log(data);
+                        const updatedUserData = {
+                            id: data.user?.id || "",
+                            email: data.user?.email || "",
+                            phoneNumber: data.user?.user_metadata.phone_number || "",
+                            nickname: data.user?.user_metadata.nickname || "",
+                            imgUrl: "/assets/images/profile.jpg",
+                        };
+                        setUser(updatedUserData);
+                    }
+                }
+            } catch (error) {
+                /** 네트워크 오류나 예기치 않은 에러를 잡기 위해 catch 구문 사용 */
+                console.error(error);
+                toast({
+                    variant: "destructive",
+                    title: "네트워크 오류",
+                    description: "서버와 연결할 수 없습니다. 다시 시도해주세요!",
+                });
+            }
         }
     };
 
@@ -121,8 +129,8 @@ function EditProfilePopup({ children }: Props) {
                 </div>
                 <AlertDialogFooter>
                     <AlertDialogCancel>취소</AlertDialogCancel>
-                    <AlertDialogAction className="bg-green-600 hover:bg-green-600" onClick={updateUserInfo}>
-                        수정
+                    <AlertDialogAction className="bg-[#E79057] hover:bg-[#E79057]" onClick={updateUserInfo}>
+                        저장
                     </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>

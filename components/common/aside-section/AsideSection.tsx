@@ -43,7 +43,9 @@ function AsideSection() {
                 </Button>
                 {/* TODO 목록 UI 하나 */}
                 <div className="flex flex-col mt-4 gap-2">
-                    <small className="text-sm font-medium leading-none text-[#A6A6A6]">9Diin의 TODO-BOARD</small>
+                    <small className="text-sm font-medium leading-none text-[#A6A6A6]">
+                        <span className="text-neutral-700">{user?.nickname ? user?.nickname : "알 수 없음님"}</span>의 TODO-BOARD
+                    </small>
                     <ul className="flex flex-col">
                         {tasks.length === 0 ? (
                             <li className="bg-[#F5F5F5] min-h-9 flex items-center gap-2 py-2 px-[10px] rounded-sm text-sm text-neutral-400">
