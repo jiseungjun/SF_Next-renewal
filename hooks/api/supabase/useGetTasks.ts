@@ -1,13 +1,13 @@
 "use client";
 
 import { toast } from "@/hooks/use-toast";
-import { useAtom } from "jotai";
-import { tasksAtom } from "@/stores/atoms";
+import { useAtom, useAtomValue } from "jotai";
+import { userAtom, tasksAtom } from "@/stores/atoms";
 import { createClient } from "@/lib/supabase/client";
 
 function useGetTasks() {
     const supabase = createClient();
-    const user = localStorage.getItem("user") || null;
+    const user = useAtomValue(userAtom);
     const [tasks, setTasks] = useAtom(tasksAtom);
 
     /** 하단의 코드에서 Supabase에서 error를 반환함에도 불구하고 try-catch 구문을 사용하는 이유
@@ -20,7 +20,7 @@ function useGetTasks() {
             return;
         } else {
             try {
-                const { data, status, error } = await supabase.from("tasks").select("*").eq("user_id", JSON.parse(user).id);
+                const { data, status, error } = await supabase.from("tasks").select("*").eq("user_id", user.id);
 
                 if (data && status === 200) setTasks(data);
                 if (error) {

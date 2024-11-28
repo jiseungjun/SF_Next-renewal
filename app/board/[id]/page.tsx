@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/client";
 import { useCreateBoard, useGetTaskById, useGetTasks } from "@/hooks/api";
 import { toast } from "@/hooks/use-toast";
 import { nanoid } from "nanoid";
@@ -19,6 +19,7 @@ import { Board } from "@/types";
 function BoardDetailPage() {
     const { id } = useParams();
     const router = useRouter();
+    const supabase = createClient();
     const { getTasks } = useGetTasks();
     const { task } = useGetTaskById(Number(id)); // 특정 id 값에 따른 TASK 데이터
     const createBoard = useCreateBoard();
@@ -130,7 +131,13 @@ function BoardDetailPage() {
                 </div>
                 <div className={styles.header__top}>
                     {/* 제목 입력 Input 섹션 */}
-                    <input type="text" value={title} onChange={(event) => setTitle(event.target.value)} placeholder="Enter Title Here!" className={styles.header__top__input} />
+                    <input
+                        type="text"
+                        value={title}
+                        onChange={(event) => setTitle(event.target.value)}
+                        placeholder="Enter Title Here!"
+                        className={styles.header__top__input}
+                    />
                     {/* 진행상황 척도 그래프 섹션 */}
                     <div className="flex items-center justify-start gap-4">
                         <small className="text-sm font-medium leading-none text-[#6D6D6D]">
@@ -145,7 +152,10 @@ function BoardDetailPage() {
                         <LabelDatePicker label={"From"} value={startDate} onChange={setStartDate} />
                         <LabelDatePicker label={"To"} value={endDate} onChange={setEndDate} />
                     </div>
-                    <Button className="text-white bg-[#E79057] hover:bg-[#E26F24] hover:ring-1 hover:ring-[#E26F24] hover:ring-offset-1 active:bg-[#D5753D] hover:shadow-lg" onClick={handleAddBoard}>
+                    <Button
+                        className="text-white bg-[#E79057] hover:bg-[#E26F24] hover:ring-1 hover:ring-[#E26F24] hover:ring-offset-1 active:bg-[#D5753D] hover:shadow-lg"
+                        onClick={handleAddBoard}
+                    >
                         Add New Board
                     </Button>
                 </div>

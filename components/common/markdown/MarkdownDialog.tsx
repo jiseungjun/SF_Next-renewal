@@ -6,7 +6,19 @@ import { useCreateBoard } from "@/hooks/api";
 import { useAtom } from "jotai";
 import { taskAtom } from "@/stores/atoms";
 /** UI 컴포넌트 */
-import { Button, Checkbox, Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, LabelDatePicker, Separator } from "@/components/ui";
+import {
+    Button,
+    Checkbox,
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+    LabelDatePicker,
+    Separator,
+} from "@/components/ui";
 import MarkdownEditor from "@uiw/react-markdown-editor";
 import { Board } from "@/types";
 import { useParams } from "next/navigation";
@@ -93,7 +105,13 @@ function MarkdownEditorDialog({ children, board }: Props) {
                                     if (typeof checked === "boolean") setIsCompleted(checked);
                                 }}
                             />
-                            <input type="text" value={title} onChange={(event) => setTitle(event.target.value)} placeholder="게시물의 제목을 입력하세요." className="w-full text-xl outline-none bg-transparent" />
+                            <input
+                                type="text"
+                                value={title}
+                                onChange={(event) => setTitle(event.target.value)}
+                                placeholder="게시물의 제목을 입력하세요."
+                                className="w-full text-xl outline-none bg-transparent"
+                            />
                         </div>
                     </DialogTitle>
                     <DialogDescription>마크다운 에디터를 사용하여 TODO-BOARD를 예쁘게 꾸며보세요.</DialogDescription>
@@ -110,7 +128,11 @@ function MarkdownEditorDialog({ children, board }: Props) {
                     <Button type="submit" variant={"outline"} onClick={handleCloseDialog}>
                         취소
                     </Button>
-                    <Button type="submit" className="text-white bg-[#E79057] hover:bg-[#E26F24] hover:ring-1 hover:ring-[#E26F24] hover:ring-offset-1 active:bg-[#D5753D] hover:shadow-lg" onClick={() => handleInsert(board.id)}>
+                    <Button
+                        type="submit"
+                        className="text-white bg-[#E79057] hover:bg-[#E26F24] hover:ring-1 hover:ring-[#E26F24] hover:ring-offset-1 active:bg-[#D5753D] hover:shadow-lg"
+                        onClick={() => handleInsert(board.id)}
+                    >
                         등록
                     </Button>
                 </DialogFooter>

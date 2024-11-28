@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { userAtom } from "@/stores/atoms";
 import { useAtom } from "jotai";
 import { createClient } from "@/lib/supabase/client";
@@ -27,6 +28,7 @@ interface Props {
 function EditProfilePopup({ children }: Props) {
     const [user, setUser] = useAtom(userAtom);
     const supabase = createClient();
+    const router = useRouter();
     const [nickname, setNickname] = useState<string>("");
     const [phoneNumber, setPhoneNumber] = useState<string>("");
     const handlePhoneNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,7 +63,6 @@ function EditProfilePopup({ children }: Props) {
                         toast({
                             title: "프로필 수정을 완료하였습니다.",
                         });
-                        console.log(data);
                         const updatedUserData = {
                             id: data.user?.id || "",
                             email: data.user?.email || "",
@@ -70,6 +71,7 @@ function EditProfilePopup({ children }: Props) {
                             imgUrl: "/assets/images/profile.jpg",
                         };
                         setUser(updatedUserData);
+                        router.refresh();
                     }
                 }
             } catch (error) {
