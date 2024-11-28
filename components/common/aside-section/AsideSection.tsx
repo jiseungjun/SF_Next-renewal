@@ -21,7 +21,7 @@ function AsideSection() {
 
     useEffect(() => {
         getTasks();
-    }, [id]);
+    }, [id, getTasks]);
 
     /** Add New Page 버튼을 클릭하였을 때, TASK 생성 */
     const handleCreateTask = useCreateTask();
