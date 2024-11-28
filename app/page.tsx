@@ -73,6 +73,9 @@ function LoginPage() {
 
                 // Jotai의 user에 관련된 상태 값을 업데이트
                 setUser(userData);
+                setTimeout(() => {
+                    router.push("/board"); // 로그인 페이지로 이동
+                }, 1000);
             }
         } catch (error) {
             /** 네트워크 오류나 예기치 않은 에러를 잡기 위해 catch 구문 사용 */
@@ -83,7 +86,6 @@ function LoginPage() {
                 description: "서버와 연결할 수 없습니다. 다시 시도해주세요!",
             });
         }
-        router.push("/board"); // 로그인 페이지로 이동
     };
 
     useEffect(() => {

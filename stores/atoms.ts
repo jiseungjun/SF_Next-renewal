@@ -7,7 +7,7 @@ import { Task, User } from "@/types";
 export const tasksAtom = atom<Task[]>([]);
 
 /** 단일(개별) task 상태 */
-export const taskAtom = atom<Task | null>(null);
+export const taskAtom = atomWithStorage<Task | null>("tasks", null);
 
 /** 유저(User) 상태 */
 export const userAtom = atomWithStorage<User | null>("user", null);

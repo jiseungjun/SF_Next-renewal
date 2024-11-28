@@ -2,6 +2,7 @@
 
 import { useParams } from "next/navigation";
 /** UI 컴포넌트 */
+import MarkdownEditor from "@uiw/react-markdown-editor";
 import { MarkdownEditorDialog } from "@/components/common";
 import { Button, Card, Checkbox, LabelDatePicker, Separator } from "@/components/ui";
 import { useDeleteBoard } from "@/hooks/api";
@@ -53,6 +54,7 @@ function BoardCard({ board }: Props) {
                     </Button>
                 </div>
             </div>
+            <MarkdownEditor className="w-full" value={board.content} />
             <Separator className="my-3" />
             {/* Add Contents 버튼 영역 */}
             <MarkdownEditorDialog board={board}>
