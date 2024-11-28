@@ -27,7 +27,7 @@ function FindPasswordPopup({ children }: Props) {
     const handleSendConfirmEmail = async () => {
         try {
             await supabase.auth.resetPasswordForEmail(email, {
-                redirectTo: "http://localhost:3000/password-setting",
+                redirectTo: "https://next-board-gamma.vercel.app/password-setting",
             });
             toast({
                 title: "비밀번호 초기화 이메일을 전송했습니다.",
