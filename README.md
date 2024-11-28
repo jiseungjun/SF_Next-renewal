@@ -123,3 +123,38 @@
 3. 이 모든 기능은 Jotai Store에서 관리하는 userAtom 데이터를 참조
 4. 비밀번호 변경 기능은 Supabase에서 제공되는 updateUser 메서드를 통해 user_metadata를 관리하여 활용
     - 이메일로 발송된 Reset Confirm 메일을 통해 `비밀번호 변경 페이지("/password-setting")` 접근하여 기능 수행
+
+---
+
+### 프로젝트 배포방법
+
+#### [Vercel Deploy]
+
+1. Vercel 로그인
+2. 개인 Dashboard 화면으로 접근
+3. 오른쪽 Add New 버튼 클릭 후, `project` 메뉴 선택
+4. 해당 프로젝트 Git Repository 선택
+5. 프로젝트 배포 -> Error 발생 확률 58,000% 지리는 김시선급 <br /><br />
+   [에러 해결 방법] <br />
+    - 사용하지 않는 코드 제거 (예시: LabelDatePicker 컴포넌트의 useState 제거, Canledar 컴포넌트의 props를 포함한 components:{} 객체 부분 제거 등) 각자 상황의 맞게 코드 제거
+    - next.config.mjs 파일을 아래와 같이 수정
+
+```
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+    env: {
+        SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
+        SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    },
+};
+
+export default nextConfig;
+```
+
+6. 프로젝트 배포 진행 (에러가 발생해도 배포된 URL은 생성)
+7. 생성된 URL 복사하여 Supabase 공식문서로 이동
+8. Supabase의 해당 프로젝트와 연결된 프로젝트로 이동
+9. 왼쪽의 `Authentication` 메뉴로 이동
+10. CONFIGURATION > URL Configuration 메뉴로 이동
+11. Site URL과 Redirect URLs를 Vercel에서 배포된 URL로 수정 및 Add URl
+12. Vercel에서 재배포 진행
