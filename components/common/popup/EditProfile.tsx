@@ -20,7 +20,6 @@ import {
     Label,
     Input,
 } from "@/components/ui";
-import { DeleteUserPopup } from "@/components/common";
 
 interface Props {
     children: React.ReactNode;
@@ -129,9 +128,7 @@ function EditProfilePopup({ children }: Props) {
                     />
                 </div>
                 <AlertDialogFooter className="flex-1 items-center justify-between">
-                    <DeleteUserPopup>
-                        <Button className="bg-red-600 hover:bg-red-600">회원탈퇴</Button>
-                    </DeleteUserPopup>
+                    <Button className="bg-red-600 hover:bg-red-600">회원탈퇴</Button>
                     <div className="flex items-center gap-2 w-full justify-end">
                         <AlertDialogCancel>취소</AlertDialogCancel>
                         <AlertDialogAction className="bg-[#E79057] hover:bg-[#E79057]" onClick={updateUserInfo}>
