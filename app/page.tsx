@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useAtom } from "jotai";
 import { userAtom } from "@/stores/atoms";
 import { createClient } from "@/lib/supabase/client";
