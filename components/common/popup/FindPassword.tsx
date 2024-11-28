@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { createClient } from "@/lib/supabase/client";
+import { supabase } from "@/lib/supabase/client";
 import { toast } from "@/hooks/use-toast";
 /** UI 컴포넌트 */
 import {
@@ -23,9 +23,7 @@ interface Props {
 }
 
 function FindPasswordPopup({ children }: Props) {
-    const supabase = createClient();
     const [email, setEmail] = useState<string>("");
-
     const handleSendConfirmEmail = async () => {
         try {
             await supabase.auth.resetPasswordForEmail(email, {

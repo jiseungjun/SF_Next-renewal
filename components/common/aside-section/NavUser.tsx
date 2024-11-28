@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
+import { supabase } from "@/lib/supabase/client";
 import { toast } from "@/hooks/use-toast";
 /** UI 컴포넌트 */
 import { EditProfilePopup } from "@/components/common";
@@ -26,8 +26,6 @@ interface Props {
 
 export function NavUser({ user }: Props) {
     const router = useRouter();
-    const supabase = createClient();
-
     const handleLogout = async () => {
         try {
             const { error } = await supabase.auth.signOut();

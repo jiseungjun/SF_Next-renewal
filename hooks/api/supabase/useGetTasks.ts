@@ -3,10 +3,9 @@
 import { toast } from "@/hooks/use-toast";
 import { useAtom, useAtomValue } from "jotai";
 import { userAtom, tasksAtom } from "@/stores/atoms";
-import { createClient } from "@/lib/supabase/client";
+import { supabase } from "@/lib/supabase/client";
 
 function useGetTasks() {
-    const supabase = createClient();
     const user = useAtomValue(userAtom);
     const [tasks, setTasks] = useAtom(tasksAtom);
 

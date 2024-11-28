@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { userAtom } from "@/stores/atoms";
 import { useAtom } from "jotai";
-import { createClient } from "@/lib/supabase/client";
+import { supabase } from "@/lib/supabase/client";
 import { toast } from "@/hooks/use-toast";
 /** UI 컴포넌트 */
 import {
@@ -28,7 +28,6 @@ interface Props {
 
 function EditProfilePopup({ children }: Props) {
     const [user, setUser] = useAtom(userAtom);
-    const supabase = createClient();
     const [nickname, setNickname] = useState<string>("");
     const [phoneNumber, setPhoneNumber] = useState<string>("");
     const handlePhoneNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {

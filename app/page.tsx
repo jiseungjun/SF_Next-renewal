@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAtom } from "jotai";
 import { userAtom } from "@/stores/atoms";
-import { createClient } from "@/lib/supabase/client";
+import { supabase } from "@/lib/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import useEmailCheck from "@/hooks/use-email";
 /** UI 컴포넌트 */
@@ -14,7 +14,6 @@ import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, Car
 import { Eye, EyeOff } from "@/public/assets/icons";
 
 function LoginPage() {
-    const supabase = createClient();
     const router = useRouter();
     const [, setUser] = useAtom(userAtom);
     const { checkEmail } = useEmailCheck();

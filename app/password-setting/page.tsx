@@ -6,11 +6,10 @@ import { toast } from "@/hooks/use-toast";
 /** UI 컴포넌트 */
 import { Button, Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, Label, Input } from "@/components/ui";
 import { Eye, EyeOff } from "@/public/assets/icons";
-import { createClient } from "@/lib/supabase/client";
+import { supabase } from "@/lib/supabase/client";
 
 function PasswordSettingPage() {
     const router = useRouter();
-    const supabase = createClient();
     /** 상태 값 */
     const [password, setPassword] = useState<string>(""); // 새 비밀번호
     const [confirmPassword, setConfirmPassword] = useState<string>(""); // 비밀번호 확인

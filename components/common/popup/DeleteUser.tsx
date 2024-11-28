@@ -31,6 +31,7 @@ function DeleteUserPopup({ children }: Props) {
         if (!user) return;
         else {
             try {
+                /** SERVICE_ROLE_KEY ISSUE */
                 const { data, error } = await supabase.auth.admin.deleteUser(user.id);
 
                 if (error) {
@@ -39,6 +40,7 @@ function DeleteUserPopup({ children }: Props) {
                         title: "에러가 발생했습니다.",
                         description: `Supabase 오류: ${error.message || "알 수 없는 오류"}`,
                     });
+                    console.log(error);
                 } else if (data && !error) {
                     toast({
                         title: "회원탈퇴를 완료하였습니다.",
