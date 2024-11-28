@@ -159,5 +159,8 @@ export default nextConfig;
 11. Site URL과 Redirect URLs를 Vercel에서 배포된 URL로 수정 및 Add URl
 12. Vercel 사이트로 다시 돌아와, 대시보드에서 해당 프로젝트 접근
 13. `project settings` 메뉴 클릭
+
+    ![Vercel 환경변수 추가](./public/assets/images/vercel.png)
+
 14. `Environment Variables` 파트에서 `key-value` 란에 `.env.local url`과 `key`값 등록
 15. Vercel에서 재배포 진행
