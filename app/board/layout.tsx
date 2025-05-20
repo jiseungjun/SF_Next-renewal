@@ -2,14 +2,14 @@
 import { AsideSection } from "@/components/common";
 
 export default function RootLayout({
-    children,
+  children,
 }: Readonly<{
-    children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-    return (
-        <div className="page">
-            <AsideSection />
-            <main className="page__main">{children}</main>
-        </div>
-    );
+  return (
+    <div className="page">
+      <AsideSection />
+      <main className="page__main">{children}</main>
+    </div>
+  );
 }
