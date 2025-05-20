@@ -24,7 +24,7 @@ interface Props {
     user: User | null;
 }
 
-export function NavUser({ user }: Props) {
+export function NavUser({ user }: Readonly<Props>) {
     const router = useRouter();
     const handleLogout = async () => {
         try {
@@ -46,7 +46,7 @@ export function NavUser({ user }: Props) {
                 toast({
                     variant: "destructive",
                     title: "에러가 발생했습니다.",
-                    description: `Supabase 오류: ${error.message || "알 수 없는 오류"}`,
+                    description: `Supabase 오류: ${error.message ?? "알 수 없는 오류"}`,
                 });
             }
         } catch (error) {
@@ -69,7 +69,7 @@ export function NavUser({ user }: Props) {
                         <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                     </Avatar>
                     <div className="grid flex-1 text-left text-sm leading-tight">
-                        <span className="truncate font-semibold">{user?.nickname ? user?.nickname : "닉네임 없음"}</span>
+                        <span className="truncate font-semibold">{user?.nickname ?? "닉네임 없음"}</span>
                         <span className="truncate text-xs">{user?.email}</span>
                     </div>
                     <ChevronsUpDown className="ml-auto size-4" />
@@ -83,7 +83,7 @@ export function NavUser({ user }: Props) {
                             <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                         </Avatar>
                         <div className="grid flex-1 text-left text-sm leading-tight">
-                            <span className="truncate font-semibold">{user?.nickname ? user?.nickname : "닉네임 없음"}</span>
+                            <span className="truncate font-semibold">{user?.nickname ?? "닉네임 없음"}</span>
                             <span className="truncate text-xs">{user?.email}</span>
                         </div>
                     </div>

@@ -9,7 +9,7 @@ interface Props {
     children: React.ReactNode;
 }
 
-function DeleteTaskPopup({ children }: Props) {
+function DeleteTaskPopup({ children }: Readonly<Props>) {
     const { id } = useParams();
     const handleDeleteTask = useDeleteTask();
 

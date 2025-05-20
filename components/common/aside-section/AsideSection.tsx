@@ -53,7 +53,7 @@ function AsideSection() {
                 {/* TODO 목록 UI 하나 */}
                 <div className="flex flex-col mt-4 gap-2">
                     <small className="text-sm font-medium leading-none text-[#A6A6A6]">
-                        <span className="text-neutral-700">{user?.nickname ? user?.nickname : "알 수 없음님"}</span>의 TODO-BOARD
+                        <span className="text-neutral-700">{user?.nickname ?? "알 수 없음님"}</span>의 TODO-BOARD
                     </small>
                     <ul className="flex flex-col">
                         {tasks.length === 0 ? (

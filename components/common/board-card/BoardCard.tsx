@@ -14,7 +14,7 @@ interface Props {
     board: Board;
 }
 
-function BoardCard({ board }: Props) {
+function BoardCard({ board }: Readonly<Props>) {
     const { id } = useParams();
     /** TASK의 개별 TODO-BOARD 삭제(TODO-BOARD 1건 삭제) */
     const handleDeleteBoard = useDeleteBoard(Number(id), board.id);

@@ -28,7 +28,7 @@ interface Props {
     board: Board;
 }
 
-function MarkdownEditorDialog({ children, board }: Props) {
+function MarkdownEditorDialog({ children, board }: Readonly<Props>) {
     const { id } = useParams();
     const updateBoards = useCreateBoard();
     const [task] = useAtom(taskAtom);

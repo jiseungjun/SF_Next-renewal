@@ -25,7 +25,7 @@ interface Props {
     children: React.ReactNode;
 }
 
-function EditProfilePopup({ children }: Props) {
+function EditProfilePopup({ children }: Readonly<Props>) {
     const [user, setUser] = useAtom(userAtom);
     const [nickname, setNickname] = useState<string>("");
     const [phoneNumber, setPhoneNumber] = useState<string>("");
@@ -40,8 +40,7 @@ function EditProfilePopup({ children }: Props) {
             toast({
                 variant: "destructive",
                 title: "프로필 수정을 원치 않으시면 '취소' 버튼을 눌러주세요!",
-            });
-            return;
+            });            
         } else {
             try {
                 const user = await supabase.auth.getUser(); // 로그인된 사용자의 정보 가져오기
@@ -55,7 +54,7 @@ function EditProfilePopup({ children }: Props) {
                         toast({
                             variant: "destructive",
                             title: "에러가 발생했습니다.",
-                            description: `Supabase 오류: ${error.message || "알 수 없는 오류"}`,
+                            description: `Supabase 오류: ${error.message ?? "알 수 없는 오류"}`,
                         });
                     } else if (data && !error) {
                         toast({
@@ -63,10 +62,10 @@ function EditProfilePopup({ children }: Props) {
                         });
                         console.log(data);
                         const updatedUserData = {
-                            id: data.user?.id || "",
-                            email: data.user?.email || "",
-                            phoneNumber: data.user?.user_metadata.phone_number || "",
-                            nickname: data.user?.user_metadata.nickname || "",
+                            id: data.user?.id ?? "",
+                            email: data.user?.email ?? "",
+                            phoneNumber: data.user?.user_metadata.phone_number ?? "",
+                            nickname: data.user?.user_metadata.nickname ?? "",
                             imgUrl: "/assets/images/profile.jpg",
                         };
                         setUser(updatedUserData);

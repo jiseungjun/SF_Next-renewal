@@ -22,7 +22,7 @@ interface Props {
     children: React.ReactNode;
 }
 
-function DeleteUserPopup({ children }: Props) {
+function DeleteUserPopup({ children }: Readonly<Props>) {
     const router = useRouter();
     const user = useAtomValue(userAtom);
     const supabase = createClient();

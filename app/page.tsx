@@ -53,7 +53,7 @@ function LoginPage() {
                 toast({
                     variant: "destructive",
                     title: "에러가 발생했습니다.",
-                    description: `Supabase 오류: ${error.message || "알 수 없는 오류"}`,
+                    description: `Supabase 오류: ${error.message ?? "알 수 없는 오류"}`,
                 });
             } else if (data && !error) {
                 toast({
@@ -63,10 +63,10 @@ function LoginPage() {
 
                 /** 쿠키에 저장할 user 데이터 */
                 const userData = {
-                    id: data.user?.id || "",
-                    email: data.user?.email || "",
-                    phoneNumber: data.user?.user_metadata.phoneNumber || "",
-                    nickname: data.user?.user_metadata.nickname || "",
+                    id: data.user?.id ?? "",
+                    email: data.user?.email ?? "",
+                    phoneNumber: data.user?.user_metadata.phoneNumber ?? "",
+                    nickname: data.user?.user_metadata.nickname ?? "",
                     imgUrl: "/assets/images/profile.jpg",
                 };
                 document.cookie = `user=${JSON.stringify(userData)}; path=/; max-age=3600`; // 1시간 동안 유효

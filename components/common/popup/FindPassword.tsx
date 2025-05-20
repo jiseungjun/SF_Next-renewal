@@ -22,7 +22,7 @@ interface Props {
     children: React.ReactNode;
 }
 
-function FindPasswordPopup({ children }: Props) {
+function FindPasswordPopup({ children }: Readonly<Props>) {
     const [email, setEmail] = useState<string>("");
     const handleSendConfirmEmail = async () => {
         try {
